@@ -1,0 +1,74 @@
+<script>
+	function copyToClipboard(id) {
+		var text = document.querySelector('#' + id).innerText;
+		navigator.clipboard.writeText(text);
+		var btn = document.querySelector('#' + id + ' + div.button-container button.copy');
+		btn.classList.remove('copy');
+		btn.classList.add('copied');
+		btn.innerHTML = 'Copiado!';
+		setTimeout(function() {
+			btn.classList.remove('copied');
+			btn.classList.add('copy');
+			btn.innerHTML = 'Copiar';
+		}, 1500);
+	}
+
+  
+function shareOnTelegram(id) {
+  var url = 'tg://msg_url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(document.querySelector('#' + id).innerText);
+  window.location.href = url;
+}
+   
+	function shareOnTwitter(id) {
+		var url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.querySelector('#' + id).innerText) + '&url=' + encodeURIComponent(window.location.href);
+		window.open(url, '_blank');
+	}
+  
+	function shareOnFacebook(id) {
+		var url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href) + '&quote=' + encodeURIComponent(document.querySelector('#' + id).innerText);
+		window.open(url, '_blank');
+	}
+  
+  function shareOnWhatsApp(id) {
+  var url = "https://wa.me/?text=" + encodeURIComponent(window.location.href + "\n\n" + document.querySelector('#' + id).innerText);
+  window.open(url);
+}
+  
+var blockquotes = document.querySelectorAll('blockquote');
+
+for (var i = 0; i < blockquotes.length; i++) {
+  var id = blockquotes[i].getAttribute('id');
+
+  var buttonContainer = document.createElement('div');
+  buttonContainer.classList.add('button-container');
+  
+  var telegramButton = document.createElement('button');
+  telegramButton.classList.add('telegram');
+  telegramButton.setAttribute('onclick', 'shareOnTelegram("' + id + '")');
+  buttonContainer.appendChild(telegramButton);
+  
+  var facebookButton = document.createElement('button');
+  facebookButton.classList.add('facebook');
+  facebookButton.setAttribute('onclick', 'shareOnFacebook("' + id + '")');
+  buttonContainer.appendChild(facebookButton);
+  
+  var twitterButton = document.createElement('button');
+  twitterButton.classList.add('twitter');
+  twitterButton.setAttribute('onclick', 'shareOnTwitter("' + id + '")');
+  buttonContainer.appendChild(twitterButton);
+  
+  var whatsappButton = document.createElement('button');
+  whatsappButton.classList.add('whatsapp');
+  whatsappButton.setAttribute('onclick', 'shareOnWhatsApp("' + id + '")');
+  buttonContainer.appendChild(whatsappButton);
+  
+  var copyButton = document.createElement('button');
+  copyButton.classList.add('copy');
+  copyButton.setAttribute('onclick', 'copyToClipboard("' + id + '")');
+  copyButton.innerHTML = 'Copiar';
+  buttonContainer.appendChild(copyButton);
+  
+  blockquotes[i].parentNode.insertBefore(buttonContainer, blockquotes[i].nextSibling);
+}
+
+</script>
